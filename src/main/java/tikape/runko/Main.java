@@ -1,5 +1,7 @@
 package tikape.runko;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.HashMap;
 import spark.ModelAndView;
 import spark.Spark;
@@ -15,7 +17,7 @@ public class Main {
             Spark.port(Integer.valueOf(System.getenv("PORT")));
         }
 
-        Database database = new Database("jdbc:sqlite:opiskelijat.db");
+        Database database = new Database("jdbc:sqlite:smoothie.db");
         database.init();
 
         OpiskelijaDao opiskelijaDao = new OpiskelijaDao(database);
@@ -40,5 +42,14 @@ public class Main {
 
             return new ModelAndView(map, "opiskelija");
         }, new ThymeleafTemplateEngine());
+    }
+
+    public static Connection getConnection() throws Exception {
+        String dbUrl = System.getenv("JDBC_DATABASE_URL");
+        if (dbUrl != null && dbUrl.length() > 0) {
+            return DriverManager.getConnection(dbUrl);
+        }
+
+        return DriverManager.getConnection("jdbc:sqlite:smoothie.db");
     }
 }
