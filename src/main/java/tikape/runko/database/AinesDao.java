@@ -11,20 +11,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import tikape.runko.domain.Opiskelija;
+import tikape.runko.domain.Aines;
 
-public class OpiskelijaDao implements Dao<Opiskelija, Integer> {
+public class AinesDao implements Dao<Aines, Integer> {
 
     private Database database;
 
-    public OpiskelijaDao(Database database) {
+    public AinesDao(Database database) {
         this.database = database;
     }
 
     @Override
-    public Opiskelija findOne(Integer key) throws SQLException {
+    public Aines findOne(Integer key) throws SQLException {
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Opiskelija WHERE id = ?");
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM RaakaAine WHERE id = ?");
         stmt.setObject(1, key);
 
         ResultSet rs = stmt.executeQuery();
@@ -36,35 +36,35 @@ public class OpiskelijaDao implements Dao<Opiskelija, Integer> {
         Integer id = rs.getInt("id");
         String nimi = rs.getString("nimi");
 
-        Opiskelija o = new Opiskelija(id, nimi);
+        Aines a = new Aines(id, nimi);
 
         rs.close();
         stmt.close();
         connection.close();
 
-        return o;
+        return a;
     }
 
     @Override
-    public List<Opiskelija> findAll() throws SQLException {
+    public List<Aines> findAll() throws SQLException {
 
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Opiskelija");
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM RaakaAine");
 
         ResultSet rs = stmt.executeQuery();
-        List<Opiskelija> opiskelijat = new ArrayList<>();
+        List<Aines> ainekset = new ArrayList<>();
         while (rs.next()) {
             Integer id = rs.getInt("id");
             String nimi = rs.getString("nimi");
 
-            opiskelijat.add(new Opiskelija(id, nimi));
+            ainekset.add(new Aines(id, nimi));
         }
 
         rs.close();
         stmt.close();
         connection.close();
 
-        return opiskelijat;
+        return ainekset;
     }
 
     @Override

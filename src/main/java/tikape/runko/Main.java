@@ -8,7 +8,8 @@ import spark.Spark;
 import static spark.Spark.*;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 import tikape.runko.database.Database;
-import tikape.runko.database.OpiskelijaDao;
+import tikape.runko.database.SmoothieDao;
+import tikape.runko.database.AinesDao;
 
 public class Main {
 
@@ -20,7 +21,8 @@ public class Main {
         Database database = new Database("jdbc:sqlite:smoothie.db");
         database.init();
 
-        OpiskelijaDao opiskelijaDao = new OpiskelijaDao(database);
+        SmoothieDao smoothieDao = new SmoothieDao(database);
+        AinesDao ainesDao = new AinesDao(database);
 
         get("/", (req, res) -> {
             HashMap map = new HashMap<>();
@@ -29,19 +31,34 @@ public class Main {
             return new ModelAndView(map, "index");
         }, new ThymeleafTemplateEngine());
 
-        get("/opiskelijat", (req, res) -> {
+        get("/smoothiet", (req, res) -> {
             HashMap map = new HashMap<>();
-            map.put("opiskelijat", opiskelijaDao.findAll());
+            map.put("smoothiet", smoothieDao.findAll());
 
-            return new ModelAndView(map, "opiskelijat");
+            return new ModelAndView(map, "smoothiet");
         }, new ThymeleafTemplateEngine());
 
-        get("/opiskelijat/:id", (req, res) -> {
+        get("/uusi", (req, res) -> {
             HashMap map = new HashMap<>();
-            map.put("opiskelija", opiskelijaDao.findOne(Integer.parseInt(req.params("id"))));
+            //map.put("smoothiet", smoothieDao.findAll());
 
-            return new ModelAndView(map, "opiskelija");
+            return new ModelAndView(map, "uusi");
         }, new ThymeleafTemplateEngine());
+
+        get("/ainekset", (req, res) -> {
+            HashMap map = new HashMap<>();
+            map.put("ainekset", ainesDao.findAll());
+
+            return new ModelAndView(map, "ainekset");
+        }, new ThymeleafTemplateEngine());
+
+        get("/smoothiet/:id", (req, res) -> {
+            HashMap map = new HashMap<>();
+            map.put("smoothie", smoothieDao.findOne(Integer.parseInt(req.params("id"))));
+
+            return new ModelAndView(map, "smoothie");
+        }, new ThymeleafTemplateEngine());
+
     }
 
     public static Connection getConnection() throws Exception {
