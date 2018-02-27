@@ -59,6 +59,13 @@ public class Main {
             return new ModelAndView(map, "smoothie");
         }, new ThymeleafTemplateEngine());
 
+        get("/palaaetusivulle", (req, res) -> {
+            HashMap map = new HashMap<>();
+            map.put("viesti", "tervehdys");
+
+            return new ModelAndView(map, "index");
+        }, new ThymeleafTemplateEngine());
+
     }
 
     public static Connection getConnection() throws Exception {
