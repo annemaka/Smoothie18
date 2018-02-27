@@ -62,7 +62,6 @@ public class Main {
         }, new ThymeleafTemplateEngine());
 
         Spark.post("/ainekset", (req, res) -> {
-            System.out.println(req.queryParams("aines"));
             ainesDao.saveOrUpdate(new Aines(null, req.queryParams("aines"))); // toimii nyt: req.queryParams("nimi") -> req.queryParams("aines")
                                                                               // koska <input type="text" name="aines"/><br/>
             res.redirect("/ainekset");
