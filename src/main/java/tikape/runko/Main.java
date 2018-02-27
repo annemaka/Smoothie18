@@ -33,14 +33,14 @@ public class Main {
             return new ModelAndView(map, "index");
         }, new ThymeleafTemplateEngine());
 
-        get("/smoothiet", (req, res) -> {
+        get("/smoothiet", (req, res) -> {       //smoothielista
             HashMap map = new HashMap<>();
             map.put("smoothiet", smoothieDao.findAll()); // Virhe jossain täällä
 
-            return new ModelAndView(map, "smoothiet");
+            return new ModelAndView(map, "index");
         }, new ThymeleafTemplateEngine());
         
-        get("/uusi", (req, res) -> {
+        get("/uusi", (req, res) -> {        //luo uusi smoothie -sivu
             HashMap map = new HashMap<>();
             map.put("smoothiet", smoothieDao.findAll());
 
@@ -54,7 +54,7 @@ public class Main {
             return "";
         });  //Lisätyt smoothieiden nimet ei tuu smoothielistaan, ainoastaan ohjelinkki tulee
 
-        get("/ainekset", (req, res) -> {
+        get("/ainekset", (req, res) -> {        //raaka-ainesivu
             HashMap map = new HashMap<>();
             map.put("ainekset", ainesDao.findAll());
 
@@ -62,12 +62,11 @@ public class Main {
         }, new ThymeleafTemplateEngine());
         
         Spark.post("/ainekset", (req, res) -> {
-            int tunnus = Integer.parseInt(req.params("id"));
-            ainesDao.delete(tunnus);
+            ainesDao.saveOrUpdate(new Aines(null, req.queryParams("nimi")));
 
             res.redirect("/ainekset");
             return "";
-        }); //EI TOIMI (tarkoitus poistaa raaka-aineita listasta)
+        }); //EI TOIMI - poistolinkeissä ei ole toiminnallisuutta eikä raaka-aineiden lisääminen lisää nimeä raaka-ainelistaan (lisää pelkän poistolinkin)
 
         get("/smoothiet/:id", (req, res) -> {
             HashMap map = new HashMap<>();

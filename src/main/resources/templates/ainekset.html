@@ -14,6 +14,14 @@
                 <span th:text="${aines.nimi}">aineksen nimi</span> <a th:href="${'/ainekset/' + aines.id}">poista</a>
             </li>
         </ol>
+        
+        <p>Lisää uusi raaka-aine</p>
+        
+        <form method="POST" action="/ainekset">
+            <span>Raaka-aine:</span><br/>
+            <input type="text" name="Aineksen nimi"/><br/>
+            <input type="submit" value="Lisää"/>
+        </form>
 
         <p></p><p><a href="/palaaetusivulle">Palaa etusivulle</a></p>
 
