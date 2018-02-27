@@ -37,7 +37,6 @@ public class Main {
         get("/smoothiet", (req, res) -> {       //smoothielista
             HashMap map = new HashMap<>();
             map.put("smoothiet", smoothieDao.findAll()); 
-            map.put("ainekset", ainesDao.findAll());
 
             return new ModelAndView(map, "smoothiet");
         }, new ThymeleafTemplateEngine());
@@ -45,6 +44,7 @@ public class Main {
         get("/uusi", (req, res) -> {        //luo uusi smoothie -sivu
             HashMap map = new HashMap<>();
             map.put("smoothiet", smoothieDao.findAll());
+            map.put("ainekset", ainesDao.findAll());
             
             return new ModelAndView(map, "uusi");
         }, new ThymeleafTemplateEngine());

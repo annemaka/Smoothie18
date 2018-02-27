@@ -25,14 +25,14 @@
                 <option th:each="smoothie : ${smoothiet}"
                         th:value="${smoothie.id}"
                         th:text="${smoothie.nimi}"></option>
-            </select>
+            </select><br/>
 
             <span>Lisättävä raaka-aine:</span><br/>
             <select name="aines">
                 <option th:each="aines : ${ainekset}"
                         th:value="${aines.id}"
                         th:text="${aines.nimi}"></option>
-            </select>
+            </select><br/>
 
             <span>Järjestys:</span><br/>
             <input type="text" name="jarjestys"/><br/>

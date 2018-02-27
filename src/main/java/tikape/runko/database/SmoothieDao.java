@@ -51,7 +51,7 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
 
         try (Connection conn = database.getConnection()) { 
             // katsotaan löytyykö aines jo smoothiesta
-            PreparedStatement stmt1 = conn.prepareStatement("SELECT * FROM AnnosRaakaAine WHERE Annos_id = ? AND RaakaAine_id = ?");
+            PreparedStatement stmt1 = conn.prepareStatement("SELECT * FROM AnnosRaakaAine WHERE annos_id = ? AND raaka_aine_id = ?");
             stmt1.setInt(1, smoothieId);
             stmt1.setInt(2, ainesohje.getAines().getId());
             ResultSet rs = stmt1.executeQuery();
@@ -59,7 +59,7 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
 
             if (exists) {
                 // jos löytyy päivitetään
-                PreparedStatement stmt = conn.prepareStatement("UPDATE AnnosRaakaAine SET jarjestys = ? , maara = ?, ohje = ? WHERE annos_id = ? AND raakaaine_id = ?");
+                PreparedStatement stmt = conn.prepareStatement("UPDATE AnnosRaakaAine SET jarjestys = ? , maara = ?, ohje = ? WHERE annos_id = ? AND raaka_aine_id = ?");
                 stmt.setInt(1, ainesohje.getJarjestys());
                 stmt.setString(2, ainesohje.getMaara());
                 stmt.setString(3, ainesohje.getOhje());
@@ -69,7 +69,7 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
 
             } else {
                 // tai lisätään
-                PreparedStatement stmt = conn.prepareStatement("INSERT INTO AnnosRaakaAine (jarjestys, maara, ohje, annos_id, raakaaine_id) VALUES (?,?,?,?,?)");
+                PreparedStatement stmt = conn.prepareStatement("INSERT INTO AnnosRaakaAine (jarjestys, maara, ohje, annos_id, raaka_aine_id) VALUES (?,?,?,?,?)");
                 stmt.setInt(1, ainesohje.getJarjestys());
                 stmt.setString(2, ainesohje.getMaara());
                 stmt.setString(3, ainesohje.getOhje());
@@ -84,7 +84,7 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
 
     public List<Ainesohje> haeAinesohjeet(Integer smoothieID) throws SQLException {
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM AnnosRaakaAine LEFT JOIN RaakaAine ON RaakaAine_id = id WHERE Annos_id = ? ORDER BY jarjestys");
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM AnnosRaakaAine LEFT JOIN RaakaAine ON Raaka_Aine_id = id WHERE Annos_id = ? ORDER BY jarjestys");
         stmt.setInt(1, smoothieID);
 
         ResultSet rs = stmt.executeQuery();
