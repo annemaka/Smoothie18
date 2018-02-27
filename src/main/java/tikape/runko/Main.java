@@ -50,8 +50,8 @@ public class Main {
         }, new ThymeleafTemplateEngine());
         
         Spark.post("/uusi", (req, res) -> {
-            smoothieDao.saveOrUpdate(new Smoothie(null, req.queryParams("nimi")));
-            
+            smoothieDao.saveOrUpdate(new Smoothie(null, req.queryParams("smoothie"))); // toimii nyt: req.queryParams("nimi") -> req.queryParams("smoothie")
+                                                                                       // koska <input type="text" name="smoothie"/><br/>
             res.redirect("/uusi");
             return "";
         });  //Lisätyt smoothieiden nimet ei tuu smoothielistaan, ainoastaan ohjelinkki tulee
@@ -80,8 +80,8 @@ public class Main {
         }, new ThymeleafTemplateEngine());
         
         Spark.post("/ainekset", (req, res) -> {
-            ainesDao.saveOrUpdate(new Aines(null, req.queryParams("nimi")));
-            
+            ainesDao.saveOrUpdate(new Aines(null, req.queryParams("aines"))); // toimii nyt: req.queryParams("nimi") -> req.queryParams("aines")
+                                                                              // koska <input type="text" name="aines"/><br/>
             res.redirect("/ainekset");
             return "";
         }); //EI TOIMI - poistolinkeissä ei ole toiminnallisuutta eikä raaka-aineiden lisääminen lisää nimeä raaka-ainelistaan (lisää pelkän poistolinkin)
