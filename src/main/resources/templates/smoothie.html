@@ -8,7 +8,15 @@
 
     <body>
         <p>Tässäpä <span th:text="${smoothie.nimi}">smoothie</span>n ohjeet.</p>
-        
+
+        <ol>
+            <li th:each="ainesohje: ${ainesohjeet}">
+                <span th:text="${ainesohje.maara}">maara</span> <span th:text="${ainesohje.aines.nimi}">nimi</span> <br/> 
+                    <span th:text="${ainesohje.ohje}">ohje</span>
+                    
+            </li>
+        </ol>
+
         <p></p><p><a href="/palaaetusivulle">Palaa etusivulle</a></p>
     </body>
 </html>

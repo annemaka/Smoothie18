@@ -11,6 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import tikape.runko.domain.Aines;
+import tikape.runko.domain.Ainesohje;
 import tikape.runko.domain.Smoothie;
 
 public class SmoothieDao implements Dao<Smoothie, Integer> {
@@ -45,6 +47,67 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
         return s;
     }
 
+    public void lisaaAinesohje(Integer smoothieId, Ainesohje ainesohje) throws SQLException {
+
+        try (Connection conn = database.getConnection()) { 
+            // katsotaan löytyykö aines jo smoothiesta
+            PreparedStatement stmt1 = conn.prepareStatement("SELECT * FROM AnnosRaakaAine WHERE Annos_id = ? AND RaakaAine_id = ?");
+            stmt1.setInt(1, smoothieId);
+            stmt1.setInt(2, ainesohje.getAines().getId());
+            ResultSet rs = stmt1.executeQuery();
+            Boolean exists = rs.next();
+
+            if (exists) {
+                // jos löytyy päivitetään
+                PreparedStatement stmt = conn.prepareStatement("UPDATE AnnosRaakaAine SET jarjestys = ? , maara = ?, ohje = ? WHERE annos_id = ? AND raakaaine_id = ?");
+                stmt.setInt(1, ainesohje.getJarjestys());
+                stmt.setString(2, ainesohje.getMaara());
+                stmt.setString(3, ainesohje.getOhje());
+                stmt.setInt(4, smoothieId);
+                stmt.setInt(5, ainesohje.getAines().getId());
+                stmt.executeUpdate();
+
+            } else {
+                // tai lisätään
+                PreparedStatement stmt = conn.prepareStatement("INSERT INTO AnnosRaakaAine (jarjestys, maara, ohje, annos_id, raakaaine_id) VALUES (?,?,?,?,?)");
+                stmt.setInt(1, ainesohje.getJarjestys());
+                stmt.setString(2, ainesohje.getMaara());
+                stmt.setString(3, ainesohje.getOhje());
+                stmt.setInt(4, smoothieId);
+                stmt.setInt(5, ainesohje.getAines().getId());
+                stmt.executeUpdate();
+            }
+
+        }
+
+    }
+
+    public List<Ainesohje> haeAinesohjeet(Integer smoothieID) throws SQLException {
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM AnnosRaakaAine LEFT JOIN RaakaAine ON RaakaAine_id = id WHERE Annos_id = ? ORDER BY jarjestys");
+        stmt.setInt(1, smoothieID);
+
+        ResultSet rs = stmt.executeQuery();
+        List<Ainesohje> ainesohjeet = new ArrayList<>();
+        while (rs.next()) {
+            Integer id = rs.getInt("id");
+            String nimi = rs.getString("nimi");
+            Integer jarjestys = rs.getInt("jarjestys");
+            String maara = rs.getString("maara");
+            String ohje = rs.getString("ohje");
+            Aines aines = new Aines(id, nimi);
+
+            ainesohjeet.add(new Ainesohje(jarjestys, aines, maara, ohje));
+        }
+
+        rs.close();
+        stmt.close();
+
+        connection.close();
+
+        return ainesohjeet;
+    }
+
     @Override
     public List<Smoothie> findAll() throws SQLException {
 
@@ -66,7 +129,7 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
 
         return smoothiet;
     }
-    
+
     public Smoothie saveOrUpdate(Smoothie object) throws SQLException {
         Smoothie byName = findByName(object.getNimi());
 
@@ -99,6 +162,15 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
 
     @Override
     public void delete(Integer key) throws SQLException {
-        // ei toteutettu
+        Connection conn = database.getConnection();
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM AnnosRaakaAine WHERE Annos_id = ?;DELETE FROM Annos WHERE id = ?");
+
+        stmt.setInt(1, key);
+        stmt.setInt(2, key);
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
+
     }
 }
