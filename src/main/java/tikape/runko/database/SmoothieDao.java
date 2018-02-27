@@ -66,10 +66,39 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
 
         return smoothiet;
     }
+    
+    public Smoothie saveOrUpdate(Smoothie object) throws SQLException {
+        Smoothie byName = findByName(object.getNimi());
+
+        if (byName != null) {
+            return byName;
+        }
+
+        try (Connection conn = database.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO Annos (nimi) VALUES (?)");
+            stmt.setString(1, object.getNimi());
+            stmt.executeUpdate();
+        }
+
+        return findByName(object.getNimi());
+    }
+
+    private Smoothie findByName(String name) throws SQLException {
+        try (Connection conn = database.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("SELECT id, nimi FROM Annos WHERE nimi = ?");
+            stmt.setString(1, name);
+
+            ResultSet result = stmt.executeQuery();
+            if (!result.next()) {
+                return null;
+            }
+
+            return new Smoothie(result.getInt("id"), result.getString("nimi"));
+        }
+    }
 
     @Override
     public void delete(Integer key) throws SQLException {
         // ei toteutettu
     }
-
 }

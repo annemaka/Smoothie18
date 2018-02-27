@@ -50,7 +50,7 @@ public class Database {
         lista.add("INSERT INTO RaakaAine (nimi) VALUES ('Maito');");
         
         lista.add("CREATE TABLE AnnosRaakaAine (jarjestys integer, maara varchar(50), ohje varchar(255), annos_id integer, "
-                + "FOREIGN KEY (annos_id) REFERENCES ANnos(id), FOREIGN KEY (raaka_aine_id) REFERENCES RaakaAine(id), "
+                + "FOREIGN KEY (annos_id) REFERENCES Annos(id), FOREIGN KEY (raaka_aine_id) REFERENCES RaakaAine(id), "
                 + "PRIMARY KEY (annos_id, raaka_aine_id));");
 
         return lista;
