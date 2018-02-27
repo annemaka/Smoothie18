@@ -1,0 +1,56 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <title>Tee itse smoothie</title>
+        <meta charset="utf-8" />
+    </head>
+
+    <body>
+
+        <p>Lisää uusi smoothie</p>
+
+        <form method="POST" action="/uusi">
+            <span>Smoothien nimi:</span><br/>
+            <input type="text" name="Smoothien nimi"/><br/>
+            <input type="submit" value="Lisää"/>
+        </form>
+
+        <p>Lisää raaka-aineita</p>
+
+        <form method="POST" action="/uusi">
+            <span>Smoothien nimi:</span><br/>
+            <select name="smoothie">
+                <option value=""></option>
+                <option th:each="smoothie : ${smoothiet}"
+                        th:value="${smoothie.nimi}"
+                        th:text="${smoothie.nimi}"></option>
+            </select>
+        </form>  
+
+        <form method="POST" action="/uusi">
+            <span>Lisättävä raaka-aine:</span><br/>
+            <select name="aines">
+                <option th:each="aines : ${ainekset}"
+                        th:value="${aines.nimi}"
+                        th:text="${aines.nimi}"></option>
+            </select>
+        </form>
+
+        <form method="POST" action="/uusi">
+            <span>Järjestys:</span><br/>
+            <input type="text" name="Järjestys"/><br/>
+            <span>Määrä:</span><br/>
+            <input type="text" name="Määrä"/><br/>
+            <span>Ohje:</span><br/>
+            <input type="text" name="Ohje"/><br/>
+
+            <input type="submit" value="Lisää"/>
+
+        </form>
+             
+        <p></p><p><a href="/palaaetusivulle">Palaa etusivulle</a></p>
+        
+        
+    </body>
+</html>   

@@ -1,0 +1,20 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <title>Raaka-aineet</title>
+        <meta charset="utf-8" />
+    </head>
+
+    <body>
+        <h1>Raaka-aineet</h1>
+
+        <ol>
+            <li th:each="aines: ${ainekset}">
+                <span th:text="${aines.nimi}">aineksen nimi</span> <a th:href="${'/ainekset/' + aines.id}">poista</a>
+            </li>
+        </ol>
+        
+                <p></p><p><a href="/palaaetusivulle">Palaa etusivulle</a></p>
+    </body>
+</html>
