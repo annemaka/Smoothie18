@@ -39,14 +39,14 @@ public class Main {
 
             return new ModelAndView(map, "smoothiet");
         }, new ThymeleafTemplateEngine());
-        
+
         get("/uusi", (req, res) -> {        //luo uusi smoothie -sivu
             HashMap map = new HashMap<>();
             map.put("smoothiet", smoothieDao.findAll());
 
             return new ModelAndView(map, "uusi");
         }, new ThymeleafTemplateEngine());
-        
+
         Spark.post("/uusi", (req, res) -> {
             smoothieDao.saveOrUpdate(new Smoothie(null, req.queryParams("smoothie"))); // toimii nyt: req.queryParams("nimi") -> req.queryParams("smoothie")
                                                                                        // koska <input type="text" name="smoothie"/><br/>
@@ -60,7 +60,7 @@ public class Main {
 
             return new ModelAndView(map, "ainekset");
         }, new ThymeleafTemplateEngine());
-        
+
         Spark.post("/ainekset", (req, res) -> {
             System.out.println(req.queryParams("aines"));
             ainesDao.saveOrUpdate(new Aines(null, req.queryParams("aines"))); // toimii nyt: req.queryParams("nimi") -> req.queryParams("aines")
@@ -68,6 +68,13 @@ public class Main {
             res.redirect("/ainekset");
             return "";
         }); //EI TOIMI - poistolinkeissä ei ole toiminnallisuutta eikä raaka-aineiden lisääminen lisää nimeä raaka-ainelistaan (lisää pelkän poistolinkin)
+
+        get("/ainekset/:id", (req, res) -> {
+            ainesDao.delete(Integer.parseInt(req.params("id")));
+
+            res.redirect("/ainekset");
+            return "";
+        });
 
         get("/smoothiet/:id", (req, res) -> {
             HashMap map = new HashMap<>();
