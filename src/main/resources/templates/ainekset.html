@@ -8,10 +8,14 @@
 
     <body>
         <h1>Raaka-aineet</h1>
-            <ol>
-                <li th:each="aines: ${ainekset}">
-                    <span th:text="${aines.nimi}">aineksen nimi</span> <a th:href="${'/ainekset'}">poista</a>
-                </li>
-            </ol>
+
+        <ol>
+            <li th:each="aines: ${ainekset}">
+                <span th:text="${aines.nimi}">aineksen nimi</span> <a th:href="${'/ainekset/' + aines.id}">poista</a>
+            </li>
+        </ol>
+
+        <p></p><p><a href="/palaaetusivulle">Palaa etusivulle</a></p>
+
     </body>
 </html>
