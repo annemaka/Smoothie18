@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
     <head>
-        <title>Smoothiet</title>
+        <title>Otsikko</title>
         <meta charset="utf-8" />
     </head>
 
@@ -11,10 +11,8 @@
 
         <ol>
             <li th:each="smoothie: ${smoothiet}">
-                <span th:text="${smoothie.nimi}">smoothien nimi</span> <a th:href="${'/smoothiet/' + smoothie.id}">ohjeet</a>
+                <span th:text="${smoothie.nimi}">opiskelijan nimi</span> <a th:href="${'/smoothiet/' + smoothie.id}">ohjeet</a>
             </li>
-        </ol> 
-                <p></p><p><a href="/palaaetusivulle">Palaa etusivulle</a></p>
-        
+        </ol>
     </body>
 </html>
