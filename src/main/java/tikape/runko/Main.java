@@ -37,7 +37,7 @@ public class Main {
             HashMap map = new HashMap<>();
             map.put("smoothiet", smoothieDao.findAll()); // Virhe jossain täällä
 
-            return new ModelAndView(map, "index");
+            return new ModelAndView(map, "smoothiet");
         }, new ThymeleafTemplateEngine());
         
         get("/uusi", (req, res) -> {        //luo uusi smoothie -sivu
