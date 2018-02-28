@@ -104,12 +104,16 @@ public class AinesDao implements Dao<Aines, Integer> {
 
     public void delete(Integer key) throws SQLException {
         Connection conn = database.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("DELETE FROM RaakaAine WHERE id = ?");
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM AnnosRaakaAine WHERE raaka_aine_id = ?"); //aines poistuu samalla myös kaikista ohjeista
+        PreparedStatement stmt1 = conn.prepareStatement("DELETE FROM raakaaine WHERE id = ?");
 
         stmt.setInt(1, key);
+        stmt1.setInt(1, key);
         stmt.executeUpdate();
+        stmt1.executeUpdate();
 
         stmt.close();
+        stmt1.close();
         conn.close();
     }
 

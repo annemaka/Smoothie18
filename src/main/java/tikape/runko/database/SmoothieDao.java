@@ -163,13 +163,16 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
     @Override
     public void delete(Integer key) throws SQLException {
         Connection conn = database.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("DELETE FROM AnnosRaakaAine WHERE Annos_id = ?;DELETE FROM Annos WHERE id = ?");
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM AnnosRaakaAine WHERE Annos_id = ?");
+        PreparedStatement stmt1 = conn.prepareStatement("DELETE FROM Annos WHERE id = ?");
 
         stmt.setInt(1, key);
-        stmt.setInt(2, key);
+        stmt1.setInt(1, key);
         stmt.executeUpdate();
+        stmt1.executeUpdate();
 
         stmt.close();
+        stmt1.close();
         conn.close();
 
     }
