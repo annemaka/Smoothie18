@@ -72,7 +72,7 @@ public class Main {
                 res.redirect("/uusi");
                 return "";
             } else {
-                throw new Exception();
+                throw new Exception("Negatiivinen luku");
             }
         });
 
