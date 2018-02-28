@@ -65,9 +65,14 @@ public class Main {
 
             Aines aines = ainesDao.findOne(ainesId);
 
+            if (maara >= 0 && jarjestys >= 0) {
             Ainesohje ainesohje = new Ainesohje(jarjestys, aines, maara, ohje);
             smoothieDao.lisaaAinesohje(annosId, ainesohje);
 
+            res.redirect("/uusi");
+            return "";
+            }
+            
             res.redirect("/uusi");
             return "";
         });
@@ -84,7 +89,7 @@ public class Main {
             // koska <input type="text" name="aines"/><br/>
             res.redirect("/ainekset");
             return "";
-        }); //EI TOIMI - poistolinkeissä ei ole toiminnallisuutta eikä raaka-aineiden lisääminen lisää nimeä raaka-ainelistaan (lisää pelkän poistolinkin)
+        }); // EI TOIMI - poistolinkeissä ei ole toiminnallisuutta eikä raaka-aineiden lisääminen lisää nimeä raaka-ainelistaan (lisää pelkän poistolinkin)
 
         get("/ainekset/:id", (req, res) -> {
             ainesDao.delete(Integer.parseInt(req.params("id")));
