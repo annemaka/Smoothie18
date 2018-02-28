@@ -66,15 +66,14 @@ public class Main {
             Aines aines = ainesDao.findOne(ainesId);
 
             if (maara >= 0 && jarjestys >= 0) {
-            Ainesohje ainesohje = new Ainesohje(jarjestys, aines, maara, ohje);
-            smoothieDao.lisaaAinesohje(annosId, ainesohje);
+                Ainesohje ainesohje = new Ainesohje(jarjestys, aines, maara, ohje);
+                smoothieDao.lisaaAinesohje(annosId, ainesohje);
 
-            res.redirect("/uusi");
-            return "";
+                res.redirect("/uusi");
+                return "";
+            } else {
+                throw new Exception();
             }
-            
-            res.redirect("/uusi");
-            return "";
         });
 
         get("/ainekset", (req, res) -> {        //raaka-ainesivu
@@ -113,12 +112,11 @@ public class Main {
             res.redirect("/smoothiet");
             return "";
         });
-        
-        
-        get("/poistaohje/:smoothieID/:ainesID", (req, res) -> {
-            smoothieDao.poistaAinesohje(Integer.parseInt(req.params("smoothieID")),Integer.parseInt(req.params("ainesID")));
 
-            res.redirect("/smoothiet/"+Integer.parseInt(req.params("smoothieID")));
+        get("/poistaohje/:smoothieID/:ainesID", (req, res) -> {
+            smoothieDao.poistaAinesohje(Integer.parseInt(req.params("smoothieID")), Integer.parseInt(req.params("ainesID")));
+
+            res.redirect("/smoothiet/" + Integer.parseInt(req.params("smoothieID")));
             return "";
         });
 
