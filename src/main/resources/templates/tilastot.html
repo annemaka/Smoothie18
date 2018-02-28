@@ -8,17 +8,14 @@
 
     <body>
         <h1>Tilastointia</h1>
-        
-        <p>Kuinka monessa smoothiessa raaka-aine esiintyy?</p>
-        <form method="POST" action="/tilastot">
-            <span>Lisättävä raaka-aine:</span><br/>
-            <select name="aines">
-                <option th:each="aines : ${ainekset}"
-                        th:value="${aines.nimi}"
-                        th:text="${aines.nimi}"></option>
-            </select>
-        </form>
-        <p>Raaka-aine esiintyy x annoksessa.</p>
+
+        <table>
+            <tr><th>Raaka-aine</th><th>Monessako smoothiessa?</th><th>Määrän keskiarvo</th><th>Kokonaismäärä kaikissa resepteissä</th></tr>
+            <tr th:each="aines : ${tilastot}"><td th:text="${aines.nimi}">nimi</td>
+                <td th:text="${aines.lukumaara}">luku</td>
+                <td th:text="${aines.keskiarvo}">ka</td>
+                <td th:text="${aines.kokonaismaara}">kokonais</td></tr>
+        </table>
         <br></br>
         
         <p></p><p><a href="/palaaetusivulle">Palaa etusivulle</a></p>

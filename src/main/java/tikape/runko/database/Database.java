@@ -49,7 +49,7 @@ public class Database {
         lista.add("INSERT INTO RaakaAine (nimi) VALUES ('Mansikka');");
         lista.add("INSERT INTO RaakaAine (nimi) VALUES ('Maito');");
         
-        lista.add("CREATE TABLE AnnosRaakaAine (jarjestys integer, maara varchar(50), ohje varchar(255), annos_id integer, raaka_aine_id integer, "
+        lista.add("CREATE TABLE AnnosRaakaAine (jarjestys integer, maara float, ohje varchar(255), annos_id integer, raaka_aine_id integer, "
                 + "FOREIGN KEY (annos_id) REFERENCES Annos(id), FOREIGN KEY (raaka_aine_id) REFERENCES RaakaAine(id), "
                 + "PRIMARY KEY (annos_id, raaka_aine_id));");
 

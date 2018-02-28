@@ -57,7 +57,7 @@ public class Main {
         });  //Lisätyt smoothieiden nimet ei tuu smoothielistaan, ainoastaan ohjelinkki tulee
 
         Spark.post("/lisaaAines", (req, res) -> {
-            String maara = req.queryParams("maara");
+            Double maara = Double.parseDouble(req.queryParams("maara"));
             String ohje = req.queryParams("ohje");
             Integer jarjestys = Integer.parseInt(req.queryParams("jarjestys"));
             Integer annosId = Integer.parseInt(req.queryParams("smoothie"));
@@ -108,20 +108,21 @@ public class Main {
             res.redirect("/smoothiet");
             return "";
         });
+        
+        
+        get("/poistaohje/:smoothieID/:ainesID", (req, res) -> {
+            smoothieDao.poistaAinesohje(Integer.parseInt(req.params("smoothieID")),Integer.parseInt(req.params("ainesID")));
+
+            res.redirect("/smoothiet/"+Integer.parseInt(req.params("smoothieID")));
+            return "";
+        });
 
         get("/tilastot", (req, res) -> {
             HashMap map = new HashMap<>();
-            map.put("tilastot", smoothieDao.findAll());
+            map.put("tilastot", ainesDao.haeTilastot());
 
             return new ModelAndView(map, "tilastot");
         }, new ThymeleafTemplateEngine());
-
-        Spark.post("/tilastot", (req, res) -> {
-            ainesDao.monessakoEsiintyy(new Aines(null, req.queryParams("aines")));
-
-            res.redirect("/tilastot");
-            return "";
-        }); //metodi vielä tyhjä ainesDaossa
 
         get("/palaaetusivulle", (req, res) -> {
             HashMap map = new HashMap<>();

@@ -5,11 +5,11 @@ package tikape.runko.domain;
 public class Ainesohje {
     
     private Integer jarjestys;
-    private String maara;
+    private double maara;
     private String ohje;
     private Aines aines;
 
-    public Ainesohje(Integer jarjestys, Aines aines, String maara, String ohje) {
+    public Ainesohje(Integer jarjestys, Aines aines, double maara, String ohje) {
         this.jarjestys = jarjestys;
         this.maara = maara;
         this.ohje = ohje;
@@ -20,7 +20,7 @@ public class Ainesohje {
         return aines;
     }
 
-    public String getMaara() {
+    public double getMaara() {
         return maara;
     }
 

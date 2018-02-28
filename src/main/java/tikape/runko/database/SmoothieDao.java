@@ -61,7 +61,7 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
                 // jos löytyy päivitetään
                 PreparedStatement stmt = conn.prepareStatement("UPDATE AnnosRaakaAine SET jarjestys = ? , maara = ?, ohje = ? WHERE annos_id = ? AND raaka_aine_id = ?");
                 stmt.setInt(1, ainesohje.getJarjestys());
-                stmt.setString(2, ainesohje.getMaara());
+                stmt.setDouble(2, ainesohje.getMaara());
                 stmt.setString(3, ainesohje.getOhje());
                 stmt.setInt(4, smoothieId);
                 stmt.setInt(5, ainesohje.getAines().getId());
@@ -71,7 +71,7 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
                 // tai lisätään
                 PreparedStatement stmt = conn.prepareStatement("INSERT INTO AnnosRaakaAine (jarjestys, maara, ohje, annos_id, raaka_aine_id) VALUES (?,?,?,?,?)");
                 stmt.setInt(1, ainesohje.getJarjestys());
-                stmt.setString(2, ainesohje.getMaara());
+                stmt.setDouble(2, ainesohje.getMaara());
                 stmt.setString(3, ainesohje.getOhje());
                 stmt.setInt(4, smoothieId);
                 stmt.setInt(5, ainesohje.getAines().getId());
@@ -93,7 +93,7 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
             Integer id = rs.getInt("id");
             String nimi = rs.getString("nimi");
             Integer jarjestys = rs.getInt("jarjestys");
-            String maara = rs.getString("maara");
+            Double maara = rs.getDouble("maara");
             String ohje = rs.getString("ohje");
             Aines aines = new Aines(id, nimi);
 
@@ -173,6 +173,19 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
 
         stmt.close();
         stmt1.close();
+        conn.close();
+
+    }
+    
+      public void poistaAinesohje(Integer smoothieID, Integer ainesID) throws SQLException {
+        Connection conn = database.getConnection();
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM AnnosRaakaAine WHERE Annos_id = ? AND raaka_aine_id = ?");
+
+        stmt.setInt(1, smoothieID);
+        stmt.setInt(2, ainesID);
+        stmt.executeUpdate();
+
+        stmt.close();
         conn.close();
 
     }

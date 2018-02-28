@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import tikape.runko.domain.Aines;
+import tikape.runko.domain.Smoothie;
 
 public class AinesDao implements Dao<Aines, Integer> {
 
@@ -100,6 +101,34 @@ public class AinesDao implements Dao<Aines, Integer> {
     
     public Integer monessakoEsiintyy(Aines object) throws SQLException {
         return 1;
+    }
+    
+    // haetaan tilastosivun tilastot
+    public List<Aines.AinesTilasto> haeTilastot() throws SQLException {
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("SELECT nimi, AVG(maara) as keskiarvo, "
+                + "SUM(maara) as kokonaismaara, COUNT(*) as lukumaara "
+                + "FROM AnnosRaakaAine LEFT JOIN RaakaAine "
+                + "ON raaka_aine_id = id GROUP BY raaka_aine_id");
+
+        ResultSet rs = stmt.executeQuery();
+        List<Aines.AinesTilasto> tilastot = new ArrayList<>();
+        while (rs.next()) {
+            String nimi = rs.getString("nimi");
+            Integer lukumaara = rs.getInt("lukumaara");
+            Double keskiarvo = rs.getDouble("keskiarvo");
+            Double kokonaismaara = rs.getDouble("kokonaismaara");
+            
+            tilastot.add(new Aines.AinesTilasto(nimi, lukumaara, keskiarvo, kokonaismaara));
+   
+        }
+
+        rs.close();
+        stmt.close();
+        connection.close();
+
+        return tilastot;
+    
     }
 
     public void delete(Integer key) throws SQLException {

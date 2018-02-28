@@ -12,7 +12,7 @@
         <ol>
             <li th:each="ainesohje: ${ainesohjeet}">
                 <span th:text="${ainesohje.maara}">maara</span> <span th:text="${ainesohje.aines.nimi}">nimi</span> <br/> 
-                    <span th:text="${ainesohje.ohje}">ohje</span>
+                    <span th:text="${ainesohje.ohje}">ohje</span>  <a th:href="${'/poistaohje/' + smoothie.id + '/' + ainesohje.aines.id}">poista</a>
                     
             </li>
         </ol>

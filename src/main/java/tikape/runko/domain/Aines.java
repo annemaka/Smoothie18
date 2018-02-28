@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tikape.runko.domain;
 
 public class Aines {
@@ -29,6 +24,36 @@ public class Aines {
 
     public void setNimi(String nimi) {
         this.nimi = nimi;
+    }
+    
+    public static class AinesTilasto {
+        private String nimi;
+        private Integer lukumaara;
+        private double keskiarvo;
+        private double kokonaismaara;
+
+        public AinesTilasto(String nimi, Integer lukumaara, double keskiarvo, double kokonaismaara) {
+            this.nimi = nimi;
+            this.lukumaara = lukumaara;
+            this.keskiarvo = keskiarvo;
+            this.kokonaismaara = kokonaismaara;
+        }
+
+        public double getKeskiarvo() {
+            return keskiarvo;
+        }
+
+        public double getKokonaismaara() {
+            return kokonaismaara;
+        }
+
+        public Integer getLukumaara() {
+            return lukumaara;
+        }
+
+        public String getNimi() {
+            return nimi;
+        }
     }
 
 }
