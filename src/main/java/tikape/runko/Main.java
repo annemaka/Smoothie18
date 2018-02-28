@@ -102,6 +102,20 @@ public class Main {
             return new ModelAndView(map, "smoothie");
         }, new ThymeleafTemplateEngine());
         
+           get("/tilastot", (req, res) -> {
+            HashMap map = new HashMap<>();
+            map.put("tilastot", smoothieDao.findAll());
+
+            return new ModelAndView(map, "tilastot");
+        }, new ThymeleafTemplateEngine());
+
+        Spark.post("/tilastot", (req, res) -> {
+            ainesDao.monessakoEsiintyy(new Aines(null, req.queryParams("aines"))); 
+            
+            res.redirect("/tilastot");
+            return "";
+        }); //metodi vielä tyhjä ainesDaossa
+        
         get("/palaaetusivulle", (req, res) -> {
             HashMap map = new HashMap<>();
             map.put("viesti", "tervehdys");

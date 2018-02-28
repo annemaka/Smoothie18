@@ -1,0 +1,26 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <title>Tilastot</title>
+        <meta charset="utf-8" />
+    </head>
+
+    <body>
+        <h1>Tilastointia</h1>
+        
+        <p>Kuinka monessa smoothiessa raaka-aine esiintyy?</p>
+        <form method="POST" action="/tilastot">
+            <span>Lisättävä raaka-aine:</span><br/>
+            <select name="aines">
+                <option th:each="aines : ${ainekset}"
+                        th:value="${aines.nimi}"
+                        th:text="${aines.nimi}"></option>
+            </select>
+        </form>
+        <p>Raaka-aine esiintyy x annoksessa.</p>
+        <br></br>
+        
+        <p></p><p><a href="/palaaetusivulle">Palaa etusivulle</a></p>
+    </body>
+</html>

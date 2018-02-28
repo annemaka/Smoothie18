@@ -97,6 +97,10 @@ public class AinesDao implements Dao<Aines, Integer> {
             return new Aines(result.getInt("id"), result.getString("nimi"));
         }
     }
+    
+    public Integer monessakoEsiintyy(Aines object) throws SQLException {
+        return 1;
+    }
 
     public void delete(Integer key) throws SQLException {
         Connection conn = database.getConnection();
