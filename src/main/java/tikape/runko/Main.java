@@ -50,6 +50,9 @@ public class Main {
         }, new ThymeleafTemplateEngine());
 
         Spark.post("/uusi", (req, res) -> {
+            if (req.queryParams("smoothie").isEmpty()) {
+                throw new Exception("Smoothie lisätty ilman nimeä");
+            }
             smoothieDao.saveOrUpdate(new Smoothie(null, req.queryParams("smoothie"))); // toimii nyt: req.queryParams("nimi") -> req.queryParams("smoothie")
             // koska <input type="text" name="smoothie"/><br/>
             res.redirect("/uusi");
@@ -84,6 +87,9 @@ public class Main {
         }, new ThymeleafTemplateEngine());
 
         Spark.post("/ainekset", (req, res) -> {
+            if (req.queryParams("aines").isEmpty()) {
+                throw new Exception("Aines lisätty ilman nimeä");
+            }
             ainesDao.saveOrUpdate(new Aines(null, req.queryParams("aines"))); // toimii nyt: req.queryParams("nimi") -> req.queryParams("aines")
             // koska <input type="text" name="aines"/><br/>
             res.redirect("/ainekset");
